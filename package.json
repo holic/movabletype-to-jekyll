@@ -1,0 +1,20 @@
+{
+  "name": "movabletype-to-jekyll",
+  "version": "0.0.0",
+  "description": "ERROR: No README.md file found!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "author": "",
+  "license": "BSD",
+  "dependencies": {
+    "coffee-script": "~1.6.3",
+    "fs-extra": "~0.6.3",
+    "glob": "~3.2.6",
+    "moment": "~2.1.0",
+    "handlebars": "~1.0.12",
+    "eco": "~1.1.0-rc-3"
+  }
+}

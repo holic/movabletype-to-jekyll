@@ -1,0 +1,15 @@
+---
+layout: post
+date: <%= @meta.date_string %><% if @meta?.categories?.length: %>
+author: <%= @meta.author %>
+title: <%= @meta.title %>
+
+categories:<% for category in @meta.categories: %>
+  - <%= category %><% end %><% end %><% if @meta?.tags?.length: %>
+
+tags:<% for tag in @meta.tags: %>
+  - <%= tag %><% end %><% end %><% if @meta?.categories?.length or @meta?.tags?.length: %>
+<% end %>
+---
+
+<%- @body %>
