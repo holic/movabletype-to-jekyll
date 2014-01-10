@@ -62,7 +62,7 @@ for file in files
 				when "TITLE"
 					meta.title = value
 				when "BASENAME"
-					meta.slug = value.replace "_", "-"
+					meta.slug = value.replace /_/g, "-"
 				when "STATUS"
 					meta.published = value is "Publish"
 				when "DATE"
@@ -77,7 +77,7 @@ for file in files
 				when "CATEGORY"
 					addCategory "push", value
 
-		filename = path.join (if meta.published then _posts else _drafts), "#{meta.date.format "YYYY-MM-DD"}-#{meta.slug}.html"
+		filename = path.join (if meta.published then _posts else _drafts), "#{meta.date.format "YYYY-MM-DD"}-#{meta.slug}.md"
 		compiled = eco.render template, {meta, body}
 		fs.writeFileSync filename, compiled
 
