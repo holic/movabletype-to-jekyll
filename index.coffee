@@ -5,14 +5,6 @@ moment = require "moment"
 eco = require "eco"
 
 
-authors =
-	paul: "Paul"
-	timo: "Timo"
-	chall: "Chris"
-	owen: "Owen"
-	norbu09: "Lenz"
-	
-
 template = fs.readFileSync "#{__dirname}/post.yml.eco", "utf8"
 
 
@@ -58,7 +50,7 @@ for file in files
 			
 			switch name
 				when "AUTHOR"
-					meta.author = authors[value] or value
+					meta.author = value
 				when "TITLE"
 					meta.title = value
 				when "BASENAME"
