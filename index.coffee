@@ -21,7 +21,8 @@ for file in files
 	source = fs.readFileSync file, "utf8"
 	continue unless source.length
 
-	target = path.join output, path.basename file, ".txt"
+	basename = path.basename file, ".txt"
+	target = path.join output, basename
 	_posts = path.join target, "_posts"
 	_drafts = path.join target, "_drafts"
 	fs.mkdirsSync _posts
@@ -68,6 +69,9 @@ for file in files
 					addCategory "unshift", value
 				when "CATEGORY"
 					addCategory "push", value
+
+		meta.original_url = "https://#{basename}/blog/#{meta.date.format "YYYY/MM"}/#{meta.slug}.html"
+		meta.has_html = /<\w+\s*\/?>|<\/\w+>/.test body
 
 		filename = path.join (if meta.published then _posts else _drafts), "#{meta.date.format "YYYY-MM-DD"}-#{meta.slug}.md"
 		compiled = eco.render template, {meta, body}
