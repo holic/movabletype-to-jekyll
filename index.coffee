@@ -41,7 +41,8 @@ for file in files
 		body = body.replace /(^\s+|\s+$)/, ""
 
 		for property in properties.match /[A-Z ]+\: .+/g
-			[name, value] = property.split ": "
+			[name, rest...] = property.split ": "
+			value = rest.join ": "
 
 			addCategory = (method, category) ->
 				meta.categories ?= []
@@ -54,6 +55,7 @@ for file in files
 					meta.author = value
 				when "TITLE"
 					meta.title = value
+					meta.title.replace /"/g, "'"
 				when "BASENAME"
 					meta.slug = value.replace /_/g, "-"
 				when "STATUS"
