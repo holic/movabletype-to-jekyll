@@ -4,15 +4,15 @@
 # then delete this comment
 
 layout: post
-date: <%= @meta.date_string %>
-author: <%= @meta.author %>
-title: <%= @meta.title %><% if @meta?.categories?.length: %>
+date: <%- @meta.date_string %>
+author: <%- @meta.author %>
+title: <%- @meta.title %><% if @meta?.categories?.length: %>
 
 categories:<% for category in @meta.categories: %>
-  - <%= category %><% end %><% end %><% if @meta?.tags?.length: %>
+  - <%- category %><% end %><% end %><% if @meta?.tags?.length: %>
 
 tags:<% for tag in @meta.tags: %>
-  - <%= tag %><% end %><% end %><% if @meta?.categories?.length or @meta?.tags?.length: %>
+  - <%- tag %><% end %><% end %><% if @meta?.categories?.length or @meta?.tags?.length: %>
 <% end %>
 ---
 
