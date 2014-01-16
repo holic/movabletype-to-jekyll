@@ -73,6 +73,10 @@ for file in files
 		meta.original_url = "https://#{basename}/blog/#{meta.date.format "YYYY/MM"}/#{meta.slug}.html"
 		meta.has_html = /<\w+\s*\/?>|<\/\w+>/.test body
 
+		if basename is "iwantmyname.co.nz"
+			meta.tags or= []
+			meta.tags.unshift "New Zealand"
+
 		filename = path.join (if meta.published then _posts else _drafts), "#{meta.date.format "YYYY-MM-DD"}-#{meta.slug}.md"
 		compiled = eco.render template, {meta, body}
 		fs.writeFileSync filename, compiled
