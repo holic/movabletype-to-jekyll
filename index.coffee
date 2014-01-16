@@ -5,6 +5,16 @@ moment = require "moment"
 eco = require "eco"
 {toMarkdown} = require "to-markdown"
 
+
+authors =
+	paul: "Paul"
+	timo: "Timo"
+	norbu09: "Lenz"
+	owen: "Owen"
+	chall: "Chris"
+	manu: "Manu"
+
+
 template = fs.readFileSync "#{__dirname}/post.yml.eco", "utf8"
 
 
@@ -52,7 +62,7 @@ for file in files
 			
 			switch name
 				when "AUTHOR"
-					meta.author = value
+					meta.author = authors[value] or value
 				when "TITLE"
 					if /[':]/.test value
 						meta.title = "\"#{value}\""
