@@ -3,7 +3,7 @@ fs = require "fs-extra"
 glob = require "glob"
 moment = require "moment"
 eco = require "eco"
-
+{toMarkdown} = require "to-markdown"
 
 template = fs.readFileSync "#{__dirname}/post.yml.eco", "utf8"
 
@@ -71,14 +71,15 @@ for file in files
 					addCategory "push", value
 
 		meta.original_url = "https://#{basename}/blog/#{meta.date.format "YYYY/MM"}/#{meta.slug}.html"
-		meta.has_html = /<\w+\s*\/?>|<\/\w+>/.test body
 
 		if basename is "iwantmyname.co.nz"
 			meta.tags or= []
 			meta.tags.unshift "New Zealand"
 
+		markdown = toMarkdown body
+
 		filename = path.join (if meta.published then _posts else _drafts), "#{meta.date.format "YYYY-MM-DD"}-#{meta.slug}.md"
-		compiled = eco.render template, {meta, body}
+		compiled = eco.render template, {meta, body, markdown}
 		fs.writeFileSync filename, compiled
 
 

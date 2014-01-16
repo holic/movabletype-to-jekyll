@@ -15,9 +15,5 @@ tags:<% for tag in @meta.tags: %>
   - <%= tag %><% end %><% end %><% if @meta?.categories?.length or @meta?.tags?.length: %>
 <% end %>
 ---
-<% if @meta.has_html: %>
-<!-- TODO: HTML detected, run this file through:
-  http://domchristie.github.io/to-markdown/
--->
-<% end %>
-<%- @body %>
+
+<%- @markdown %>
