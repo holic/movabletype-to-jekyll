@@ -74,7 +74,8 @@ for file in files
 
 		if basename is "iwantmyname.co.nz"
 			meta.tags or= []
-			meta.tags.unshift "New Zealand"
+			meta.tags.unshift "New Zealand", "local"
+			addCategory "unshift", "New Zealand"
 
 		markdown = toMarkdown body
 
