@@ -82,6 +82,8 @@ for file in files
 			addCategory "unshift", "New Zealand"
 
 		markdown = toMarkdown body
+		markdown = markdown.replace /<div>([\w\W]*?)<\/div>/g, "$1"
+		markdown = markdown.replace "&nbsp;", " "
 
 		filename = path.join (if meta.published then _posts else _drafts), "#{meta.date.format "YYYY-MM-DD"}-#{meta.slug}.md"
 		compiled = eco.render template, {meta, body, markdown}
