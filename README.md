@@ -10,4 +10,3 @@ Feel free to open issues or fork/pull request.
 ### TODO:
 
 - Better README
-- Run HTML posts through [domchristie/to-markdown](http://domchristie.github.io/to-markdown/)

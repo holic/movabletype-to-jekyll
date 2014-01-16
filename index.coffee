@@ -3,7 +3,7 @@ fs = require "fs-extra"
 glob = require "glob"
 moment = require "moment"
 eco = require "eco"
-
+{toMarkdown} = require "to-markdown"
 
 template = fs.readFileSync "#{__dirname}/post.yml.eco", "utf8"
 
@@ -69,8 +69,10 @@ for file in files
 				when "CATEGORY"
 					addCategory "push", value
 
+		markdown = toMarkdown body
+
 		filename = path.join (if meta.published then _posts else _drafts), "#{meta.date.format "YYYY-MM-DD"}-#{meta.slug}.md"
-		compiled = eco.render template, {meta, body}
+		compiled = eco.render template, {meta, body, markdown}
 		fs.writeFileSync filename, compiled
 
 
