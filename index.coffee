@@ -53,8 +53,10 @@ for file in files
 				when "AUTHOR"
 					meta.author = value
 				when "TITLE"
-					meta.title = value
-					meta.title.replace /"/g, "'"
+					if /[':]/.test value
+						meta.title = "\"#{value}\""
+					else
+						meta.title = value
 				when "BASENAME"
 					meta.slug = value.replace /_/g, "-"
 				when "STATUS"
