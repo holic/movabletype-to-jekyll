@@ -1,9 +1,11 @@
 path = require "path"
+url = require "url"
 fs = require "fs-extra"
 glob = require "glob"
 moment = require "moment"
 eco = require "eco"
 {toMarkdown} = require "to-markdown"
+request = require "request"
 
 
 authors =
@@ -35,8 +37,10 @@ for file in files
 	target = path.join output, basename
 	_posts = path.join target, "_posts"
 	_drafts = path.join target, "_drafts"
+	images = path.join target, "images"
 	fs.mkdirsSync _posts
 	fs.mkdirsSync _drafts
+	fs.mkdirsSync images
 
 	posts = source.split "--------\n"
 	for post in posts
@@ -75,6 +79,7 @@ for file in files
 				when "DATE"
 					meta.date = moment value, "MM/DD/YYYY hh:mm:ss A"
 					meta.date_string = meta.date.format "YYYY-MM-DD HH:mm:ss"
+					meta.date_filename = meta.date.format "YYYY-MM-DD"
 				when "TAGS"
 					meta.tags = value.match(/(["]?).*?\1(?=,|$)/g)
 						.map((tag) -> tag.replace /^"(.*)"$/, "$1")
@@ -91,11 +96,26 @@ for file in files
 			meta.tags.unshift "New Zealand", "local"
 			addCategory "unshift", "New Zealand"
 
+		# convert HTML to markdown and clean up
 		markdown = toMarkdown body
 		markdown = markdown.replace /<div>([\w\W]*?)<\/div>/g, "$1"
 		markdown = markdown.replace "&nbsp;", " "
 
-		filename = path.join (if meta.published then _posts else _drafts), "#{meta.date.format "YYYY-MM-DD"}-#{meta.slug}.md"
+		# find images, download to local directory
+		matches = markdown.match /\!\[[^\]]*?\]\(([^\) ]+)/g
+		if matches then matches.forEach (match) ->
+			[_, src] = match.match /\!\[[^\]]*?\]\(([^\) ]+)/
+			{pathname} = url.parse src
+
+			imageName = "#{meta.date_filename}-#{path.basename pathname}"
+			markdown = markdown.replace match, match.replace src, "{{ site.images_url }}/#{imageName}"
+
+			done = ->
+				console.log "Downloaded #{src}"
+
+			request(src, done).pipe fs.createWriteStream path.join images, imageName
+
+		filename = path.join (if meta.published then _posts else _drafts), "#{meta.date_filename}-#{meta.slug}.md"
 		compiled = eco.render template, {meta, body, markdown}
 		fs.writeFileSync filename, compiled
 

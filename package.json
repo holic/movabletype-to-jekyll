@@ -10,6 +10,7 @@
     "glob": "~3.2.6",
     "moment": "~2.1.0",
     "eco": "~1.1.0-rc-3",
-    "to-markdown": "0.0.1"
+    "to-markdown": "0.0.1",
+    "request": "~2.33.0"
   }
 }
